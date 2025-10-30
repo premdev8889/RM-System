@@ -1,11 +1,15 @@
 'use client';
 
+import { useCart } from './CartContext';
+
 interface BottomNavigationProps {
   activeTab?: string;
   onTabClick?: (tab: string) => void;
 }
 
 export default function BottomNavigation({ activeTab = 'home', onTabClick }: BottomNavigationProps) {
+  const { getTotalItems } = useCart();
+  const cartItemCount = getTotalItems();
   const tabs = [
     { id: 'home', icon: 'home', label: 'Home' },
     { id: 'search', icon: 'search', label: 'Search' },
@@ -59,9 +63,14 @@ export default function BottomNavigation({ activeTab = 'home', onTabClick }: Bot
         <button
           key={tab.id}
           onClick={() => onTabClick?.(tab.id)}
-          className="flex flex-col items-center p-2 min-w-0 flex-1"
+          className="flex flex-col items-center p-2 min-w-0 flex-1 relative"
         >
           {getIcon(tab.icon, activeTab === tab.id)}
+          {tab.id === 'cart' && cartItemCount > 0 && (
+            <div className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+              {cartItemCount > 99 ? '99+' : cartItemCount}
+            </div>
+          )}
           <span className={`text-xs mt-1 ${activeTab === tab.id ? 'text-red-600' : 'text-gray-500'}`}>
             {tab.label}
           </span>

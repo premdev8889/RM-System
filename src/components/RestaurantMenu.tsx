@@ -4,15 +4,18 @@ import { useState } from 'react';
 import Header from './Header';
 import SearchBar from './SearchBar';
 import BottomNavigation from './BottomNavigation';
+import { useCart } from './CartContext';
 
 interface RestaurantMenuProps {
   onBackClick?: () => void;
   onTabClick?: (tab: string) => void;
+  onFoodItemClick?: (foodItem: any) => void;
 }
 
-export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMenuProps) {
+export default function RestaurantMenu({ onBackClick, onTabClick, onFoodItemClick }: RestaurantMenuProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const { addToCart } = useCart();
 
   const categories = [
     { id: 'all', name: 'All Items' },
@@ -22,6 +25,86 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
     { id: 'desserts', name: 'Desserts' },
     { id: 'beverages', name: 'Beverages' }
   ];
+
+  // Sample food items data
+  const foodItems = [
+    {
+      id: 1,
+      name: 'Butter Chicken',
+      description: 'Chicken in rich tomato and butter gravy',
+      price: 349,
+      category: 'main',
+      image: '/api/placeholder/300/200',
+      isVeg: false,
+      isBestseller: true,
+      rating: 4.5,
+      reviews: 128,
+      ingredients: ['Chicken', 'Tomato', 'Butter', 'Cream', 'Spices'],
+      nutrition: { calories: 420, protein: 28, carbs: 12, fat: 32 }
+    },
+    {
+      id: 2,
+      name: 'Palak Paneer',
+      description: 'Cottage cheese cubes in spinach gravy',
+      price: 299,
+      category: 'main',
+      image: '/api/placeholder/300/200',
+      isVeg: true,
+      isBestseller: false,
+      rating: 4.3,
+      reviews: 95,
+      ingredients: ['Paneer', 'Spinach', 'Onion', 'Garlic', 'Spices'],
+      nutrition: { calories: 320, protein: 18, carbs: 15, fat: 22 }
+    },
+    {
+      id: 3,
+      name: 'Butter Naan',
+      description: 'Soft leavened bread',
+      price: 49,
+      category: 'breads',
+      image: '/api/placeholder/300/200',
+      isVeg: true,
+      isBestseller: false,
+      rating: 4.2,
+      reviews: 67,
+      ingredients: ['Flour', 'Butter', 'Yogurt', 'Yeast'],
+      nutrition: { calories: 280, protein: 8, carbs: 45, fat: 8 }
+    },
+    {
+      id: 4,
+      name: 'Garlic Naan',
+      description: 'Naan topped with garlic',
+      price: 59,
+      category: 'breads',
+      image: '/api/placeholder/300/200',
+      isVeg: true,
+      isBestseller: false,
+      rating: 4.4,
+      reviews: 52,
+      ingredients: ['Flour', 'Garlic', 'Butter', 'Yogurt', 'Yeast'],
+      nutrition: { calories: 290, protein: 9, carbs: 46, fat: 9 }
+    }
+  ];
+
+  const handleFoodItemClick = (foodItem: any) => {
+    console.log('Food item clicked:', foodItem); // Debug log
+    if (onFoodItemClick) {
+      onFoodItemClick(foodItem);
+    }
+  };
+
+  const handleAddToCart = (foodItem: any, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the card click
+    addToCart({
+      id: foodItem.id.toString(),
+      name: foodItem.name,
+      price: foodItem.price,
+      image: foodItem.image,
+      category: foodItem.category,
+      description: foodItem.description
+    });
+    console.log('Added to cart:', foodItem.name); // Debug log
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -146,7 +229,23 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
       <div className="mt-6 px-4">
         <h2 className="text-lg font-bold text-gray-800 mb-3">Popular Items</h2>
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white rounded-xl overflow-hidden shadow">
+          <div 
+            className="bg-white rounded-xl overflow-hidden shadow cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => handleFoodItemClick({
+              id: 'popular-1',
+              name: 'Butter Chicken',
+              description: 'Creamy tomato-based curry with tender chicken pieces',
+              price: 299,
+              category: 'main',
+              image: '/api/placeholder/300/200',
+              isVeg: false,
+              isBestseller: true,
+              rating: 4.8,
+              reviews: 156,
+              ingredients: ['Chicken', 'Tomato', 'Cream', 'Butter', 'Spices'],
+              nutrition: { calories: 450, protein: 28, carbs: 12, fat: 32 }
+            })}
+          >
             <div className="h-24 bg-gray-200 relative">
               <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
                 Bestseller
@@ -165,12 +264,40 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
               </div>
               <div className="flex justify-between items-center mt-2">
                 <span className="font-bold text-gray-800">₹299</span>
-                <button className="bg-red-600 text-white text-xs px-2 py-1 rounded">Add</button>
+                <button 
+                  className="bg-red-600 text-white text-xs px-2 py-1 rounded"
+                  onClick={(e) => handleAddToCart({
+                    id: 'popular-1',
+                    name: 'Butter Chicken',
+                    description: 'Creamy tomato-based curry with tender chicken pieces',
+                    price: 299,
+                    category: 'main',
+                    image: '/api/placeholder/300/200'
+                  }, e)}
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl overflow-hidden shadow">
+          <div 
+            className="bg-white rounded-xl overflow-hidden shadow cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => handleFoodItemClick({
+              id: 'popular-2',
+              name: 'Paneer Tikka',
+              description: 'Cottage cheese marinated in spices and grilled to perfection',
+              price: 249,
+              category: 'starters',
+              image: '/api/placeholder/300/200',
+              isVeg: true,
+              isBestseller: false,
+              rating: 4.6,
+              reviews: 89,
+              ingredients: ['Paneer', 'Bell Peppers', 'Onion', 'Yogurt', 'Spices'],
+              nutrition: { calories: 280, protein: 16, carbs: 8, fat: 20 }
+            })}
+          >
             <div className="h-24 bg-gray-200 relative">
               <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium">
                 Veg
@@ -189,7 +316,19 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
               </div>
               <div className="flex justify-between items-center mt-2">
                 <span className="font-bold text-gray-800">₹249</span>
-                <button className="bg-red-600 text-white text-xs px-2 py-1 rounded">Add</button>
+                <button 
+                  className="bg-red-600 text-white text-xs px-2 py-1 rounded"
+                  onClick={(e) => handleAddToCart({
+                    id: 'popular-2',
+                    name: 'Paneer Tikka',
+                    description: 'Cottage cheese marinated in spices and grilled to perfection',
+                    price: 249,
+                    category: 'starters',
+                    image: '/api/placeholder/300/200'
+                  }, e)}
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>
@@ -207,7 +346,23 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
           
           <div className="space-y-4">
             {/* Menu Item with Image */}
-            <div className="bg-white rounded-xl p-3 shadow-sm flex">
+            <div 
+              className="bg-white rounded-xl p-3 shadow-sm flex cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => handleFoodItemClick({
+                id: 'starter-1',
+                name: 'Paneer Tikka',
+                description: 'Cottage cheese marinated in spices and grilled to perfection',
+                price: 249,
+                category: 'starters',
+                image: '/api/placeholder/300/200',
+                isVeg: true,
+                isBestseller: false,
+                rating: 4.6,
+                reviews: 89,
+                ingredients: ['Paneer', 'Bell Peppers', 'Onion', 'Yogurt', 'Spices'],
+                nutrition: { calories: 280, protein: 16, carbs: 8, fat: 20 }
+              })}
+            >
               <div className="w-20 h-20 bg-gray-200 rounded-lg mr-3 flex-shrink-0"></div>
               <div className="flex-1">
                 <div className="flex items-center">
@@ -219,13 +374,41 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
                 <p className="text-gray-500 text-sm">Cottage cheese marinated in spices and grilled</p>
                 <div className="flex justify-between items-center mt-2">
                   <span className="font-bold text-gray-800">₹249</span>
-                  <button className="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Add</button>
+                  <button 
+                    className="bg-red-600 text-white text-xs px-3 py-1 rounded-full"
+                    onClick={(e) => handleAddToCart({
+                      id: 'starter-1',
+                      name: 'Paneer Tikka',
+                      description: 'Cottage cheese marinated in spices and grilled to perfection',
+                      price: 249,
+                      category: 'starters',
+                      image: '/api/placeholder/300/200'
+                    }, e)}
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
             </div>
             
             {/* Menu Item with Image */}
-            <div className="bg-white rounded-xl p-3 shadow-sm flex">
+            <div 
+              className="bg-white rounded-xl p-3 shadow-sm flex cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => handleFoodItemClick({
+                id: 'starter-2',
+                name: 'Chicken Tikka',
+                description: 'Boneless chicken pieces marinated and grilled to perfection',
+                price: 299,
+                category: 'starters',
+                image: '/api/placeholder/300/200',
+                isVeg: false,
+                isBestseller: true,
+                rating: 4.7,
+                reviews: 124,
+                ingredients: ['Chicken', 'Yogurt', 'Ginger', 'Garlic', 'Spices'],
+                nutrition: { calories: 320, protein: 28, carbs: 6, fat: 18 }
+              })}
+            >
               <div className="w-20 h-20 bg-gray-200 rounded-lg mr-3 flex-shrink-0"></div>
               <div className="flex-1">
                 <div className="flex items-center">
@@ -237,7 +420,19 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
                 <p className="text-gray-500 text-sm">Boneless chicken pieces marinated and grilled</p>
                 <div className="flex justify-between items-center mt-2">
                   <span className="font-bold text-gray-800">₹299</span>
-                  <button className="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Add</button>
+                  <button 
+                    className="bg-red-600 text-white text-xs px-3 py-1 rounded-full"
+                    onClick={(e) => handleAddToCart({
+                      id: 'starter-2',
+                      name: 'Chicken Tikka',
+                      description: 'Boneless chicken pieces marinated and grilled to perfection',
+                      price: 299,
+                      category: 'starters',
+                      image: '/api/placeholder/300/200'
+                    }, e)}
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
             </div>
@@ -252,39 +447,41 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
           </div>
           
           <div className="space-y-4">
-            {/* Menu Item with Image */}
-            <div className="bg-white rounded-xl p-3 shadow-sm flex">
-              <div className="w-20 h-20 bg-gray-200 rounded-lg mr-3 flex-shrink-0"></div>
-              <div className="flex-1">
-                <div className="flex items-center">
-                  <h3 className="font-semibold text-gray-800">Butter Chicken</h3>
-                  <div className="ml-2 px-1.5 py-0.5 bg-red-100 text-red-800 text-xs rounded">Bestseller</div>
+            {/* Dynamic Menu Items */}
+            {foodItems
+              .filter(item => item.category === 'main')
+              .map((item) => (
+                <div 
+                  key={item.id}
+                  className="bg-white rounded-xl p-3 shadow-sm flex cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => handleFoodItemClick(item)}
+                >
+                  <div className="w-20 h-20 bg-gray-200 rounded-lg mr-3 flex-shrink-0"></div>
+                  <div className="flex-1">
+                    <div className="flex items-center">
+                      <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                      {item.isBestseller && (
+                        <div className="ml-2 px-1.5 py-0.5 bg-red-100 text-red-800 text-xs rounded">Bestseller</div>
+                      )}
+                      {item.isVeg && (
+                        <svg className="w-4 h-4 text-green-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <p className="text-gray-500 text-sm">{item.description}</p>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="font-bold text-gray-800">₹{item.price}</span>
+                      <button 
+                        className="bg-red-600 text-white text-xs px-3 py-1 rounded-full hover:bg-red-700 transition-colors"
+                        onClick={(e) => handleAddToCart(item, e)}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-gray-500 text-sm">Chicken in rich tomato and butter gravy</p>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="font-bold text-gray-800">₹349</span>
-                  <button className="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Add</button>
-                </div>
-              </div>
-            </div>
-            
-            {/* Menu Item with Image */}
-            <div className="bg-white rounded-xl p-3 shadow-sm flex">
-              <div className="w-20 h-20 bg-gray-200 rounded-lg mr-3 flex-shrink-0"></div>
-              <div className="flex-1">
-                <div className="flex items-center">
-                  <h3 className="font-semibold text-gray-800">Palak Paneer</h3>
-                  <svg className="w-4 h-4 text-green-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <p className="text-gray-500 text-sm">Cottage cheese cubes in spinach gravy</p>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="font-bold text-gray-800">₹299</span>
-                  <button className="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Add</button>
-                </div>
-              </div>
-            </div>
+              ))}
           </div>
         </div>
         
@@ -296,33 +493,39 @@ export default function RestaurantMenu({ onBackClick, onTabClick }: RestaurantMe
           </div>
           
           <div className="space-y-4">
-            {/* Menu Item */}
-            <div className="bg-white rounded-xl p-3 shadow-sm">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold text-gray-800">Butter Naan</h3>
-                  <p className="text-gray-500 text-sm">Soft leavened bread</p>
+            {/* Dynamic Bread Items */}
+            {foodItems
+              .filter(item => item.category === 'breads')
+              .map((item) => (
+                <div 
+                  key={item.id}
+                  className="bg-white rounded-xl p-3 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => handleFoodItemClick(item)}
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="flex items-center">
+                        <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                        {item.isVeg && (
+                          <svg className="w-4 h-4 text-green-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <p className="text-gray-500 text-sm">{item.description}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="font-bold text-gray-800 mr-2">₹{item.price}</span>
+                      <button 
+                        className="bg-red-600 text-white text-xs px-3 py-1 rounded-full hover:bg-red-700 transition-colors"
+                        onClick={(e) => handleAddToCart(item, e)}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <span className="font-bold text-gray-800 mr-2">₹49</span>
-                  <button className="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Add</button>
-                </div>
-              </div>
-            </div>
-            
-            {/* Menu Item */}
-            <div className="bg-white rounded-xl p-3 shadow-sm">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="font-semibold text-gray-800">Garlic Naan</h3>
-                  <p className="text-gray-500 text-sm">Naan topped with garlic</p>
-                </div>
-                <div className="flex items-center">
-                  <span className="font-bold text-gray-800 mr-2">₹59</span>
-                  <button className="bg-red-600 text-white text-xs px-3 py-1 rounded-full">Add</button>
-                </div>
-              </div>
-            </div>
+              ))}
           </div>
         </div>
       </div>
