@@ -1,14 +1,55 @@
 'use client';
 
+import { useState } from 'react';
 import { useCart } from './CartContext';
+import { useOrder } from './OrderContext';
 import Header from './Header';
 
 interface CartProps {
   onBackClick?: () => void;
+  onTabClick?: (tab: string) => void;
 }
 
-export default function Cart({ onBackClick }: CartProps) {
-  const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalItems } = useCart();
+export default function Cart({ onBackClick, onTabClick }: CartProps) {
+  const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalItems, clearCart } = useCart();
+  const { placeOrder } = useOrder();
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    tableNumber: '',
+    specialInstructions: ''
+  });
+
+  const handleCheckout = () => {
+    setShowCheckout(true);
+  };
+
+  const handlePlaceOrder = () => {
+    const orderItems = cartItems.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+      category: item.category || 'Main Course'
+    }));
+
+    const orderId = placeOrder(orderItems, customerInfo);
+    clearCart();
+    
+    // Navigate to order tracking
+    if (onTabClick) {
+      onTabClick('orders');
+    }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setCustomerInfo(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -130,10 +171,100 @@ export default function Cart({ onBackClick }: CartProps) {
         </div>
         
         {/* Checkout Button */}
-        <button className="w-full bg-red-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-red-700 transition-colors">
+        <button 
+          onClick={handleCheckout}
+          className="w-full bg-red-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-red-700 transition-colors"
+        >
           Proceed to Checkout
         </button>
       </div>
+
+      {/* Checkout Modal */}
+      {showCheckout && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold">Order Details</h3>
+              <button 
+                onClick={() => setShowCheckout(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number (Optional)
+                </label>
+                <input
+                  type="tel"
+                  value={customerInfo.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Table Number (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={customerInfo.tableNumber}
+                  onChange={(e) => handleInputChange('tableNumber', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  placeholder="Enter table number"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Special Instructions (Optional)
+                </label>
+                <textarea
+                  value={customerInfo.specialInstructions}
+                  onChange={(e) => handleInputChange('specialInstructions', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  rows={3}
+                  placeholder="Any special requests or dietary requirements"
+                />
+              </div>
+
+              <div className="border-t pt-4">
+                <div className="flex justify-between font-bold text-lg mb-4">
+                  <span>Total Amount:</span>
+                  <span className="text-red-600">₹{getTotalPrice() + 40 + Math.round(getTotalPrice() * 0.18)}</span>
+                </div>
+
+                <button
+                  onClick={handlePlaceOrder}
+                  className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                >
+                  Place Order
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

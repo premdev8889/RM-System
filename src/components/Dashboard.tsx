@@ -5,10 +5,12 @@ import QRScanner from './QRScanner';
 import RestaurantMenu from './RestaurantMenu';
 import FoodDetail from './FoodDetail';
 import Cart from './Cart';
+import OrderTracking from './OrderTracking';
 import ClientOnly from './ClientOnly';
 import { CartProvider } from './CartContext';
+import { OrderProvider } from './OrderContext';
 
-type ViewType = 'scanner' | 'menu' | 'foodDetail' | 'cart';
+type ViewType = 'scanner' | 'menu' | 'foodDetail' | 'cart' | 'orders';
 
 export default function Dashboard() {
   const [currentView, setCurrentView] = useState<ViewType>('scanner');
@@ -42,13 +44,16 @@ export default function Dashboard() {
       setCurrentView('menu');
     } else if (tab === 'cart') {
       setCurrentView('cart');
+    } else if (tab === 'orders') {
+      setCurrentView('orders');
     }
     // Add more tab handling as needed
   };
 
   return (
-    <CartProvider>
-      <div className="min-h-screen">
+    <OrderProvider>
+      <CartProvider>
+        <div className="min-h-screen">
         {currentView === 'scanner' ? (
           <ClientOnly fallback={
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -88,8 +93,14 @@ export default function Dashboard() {
             onBackClick={() => setCurrentView('menu')}
             onTabClick={handleTabClick}
           />
+        ) : currentView === 'orders' ? (
+          <OrderTracking 
+            onBackClick={() => setCurrentView('menu')}
+            onTabClick={handleTabClick}
+          />
         ) : null}
-      </div>
-    </CartProvider>
+        </div>
+      </CartProvider>
+    </OrderProvider>
   );
 }
