@@ -6,11 +6,12 @@ import RestaurantMenu from './RestaurantMenu';
 import FoodDetail from './FoodDetail';
 import Cart from './Cart';
 import OrderTracking from './OrderTracking';
+import Profile from './Profile';
 import ClientOnly from './ClientOnly';
 import { CartProvider } from './CartContext';
 import { OrderProvider } from './OrderContext';
 
-type ViewType = 'scanner' | 'menu' | 'foodDetail' | 'cart' | 'orders';
+type ViewType = 'scanner' | 'menu' | 'foodDetail' | 'cart' | 'orders' | 'profile';
 
 export default function Dashboard() {
   const [currentView, setCurrentView] = useState<ViewType>('scanner');
@@ -46,6 +47,8 @@ export default function Dashboard() {
       setCurrentView('cart');
     } else if (tab === 'orders') {
       setCurrentView('orders');
+    } else if (tab === 'profile') {
+      setCurrentView('profile');
     }
     // Add more tab handling as needed
   };
@@ -95,6 +98,11 @@ export default function Dashboard() {
           />
         ) : currentView === 'orders' ? (
           <OrderTracking 
+            onBackClick={() => setCurrentView('menu')}
+            onTabClick={handleTabClick}
+          />
+        ) : currentView === 'profile' ? (
+          <Profile 
             onBackClick={() => setCurrentView('menu')}
             onTabClick={handleTabClick}
           />
