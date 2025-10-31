@@ -206,7 +206,7 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScanSuccess, onBackClick }) => 
             onClick={() => {
               // Simulate QR detection for testing
               setTimeout(() => {
-                onScanSuccess();
+                onScanSuccess?.();
               }, 500);
             }}
             className="bg-green-600/80 backdrop-blur-sm text-white px-6 py-3 rounded-full font-semibold border border-green-400/30 hover:bg-green-600 transition-all duration-200 shadow-lg"

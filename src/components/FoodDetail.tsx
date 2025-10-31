@@ -23,6 +23,12 @@ interface FoodItem {
     carbs: string;
     fat: string;
   };
+  nutrition?: {
+    calories: number;
+    protein: string;
+    carbs: string;
+    fat: string;
+  };
 }
 
 interface FoodDetailProps {
