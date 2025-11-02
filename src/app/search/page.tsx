@@ -70,27 +70,6 @@ const cuisineFilters = ["All", "Italian", "American", "Japanese", "Indian", "Mex
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('All');
-  const router = useRouter();
-
-  const handleTabClick = (tab: string) => {
-    switch (tab) {
-      case 'home':
-        router.push('/dashboard');
-        break;
-      case 'search':
-        // Already on search page
-        break;
-      case 'cart':
-        router.push('/cart');
-        break;
-      case 'orders':
-        router.push('/orders');
-        break;
-      case 'profile':
-        router.push('/profile');
-        break;
-    }
-  };
 
   const filteredRestaurants = mockRestaurants.filter(restaurant => {
     const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -195,7 +174,7 @@ export default function SearchPage() {
             </div>
           </div>
 
-          <BottomNavigation activeTab="search" onTabClick={handleTabClick} />
+          <BottomNavigation />
         </div>
       </CartProvider>
     </OrderProvider>

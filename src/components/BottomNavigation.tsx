@@ -1,22 +1,38 @@
 'use client';
 
 import { useCart } from './CartContext';
+import { useRouter, usePathname } from 'next/navigation';
 
-interface BottomNavigationProps {
-  activeTab?: string;
-  onTabClick?: (tab: string) => void;
-}
-
-export default function BottomNavigation({ activeTab = 'home', onTabClick }: BottomNavigationProps) {
+export default function BottomNavigation() {
+  const router = useRouter();
+  const pathname = usePathname();
   const { getTotalItems } = useCart();
   const cartItemCount = getTotalItems();
   const tabs = [
-    { id: 'home', icon: 'home', label: 'Home' },
-    { id: 'search', icon: 'search', label: 'Search' },
-    { id: 'cart', icon: 'cart', label: 'Cart' },
-    { id: 'orders', icon: 'orders', label: 'Orders' },
-    { id: 'profile', icon: 'profile', label: 'Profile' }
+    { id: 'home', icon: 'home', label: 'Home', route: '/dashboard' },
+    { id: 'search', icon: 'search', label: 'Search', route: '/search' },
+    { id: 'cart', icon: 'cart', label: 'Cart', route: '/cart' },
+    { id: 'orders', icon: 'orders', label: 'Orders', route: '/orders' },
+    { id: 'profile', icon: 'profile', label: 'Profile', route: '/profile' }
   ];
+
+  // Determine active tab based on current pathname
+  const getCurrentActiveTab = () => {
+    if (pathname === '/dashboard' || pathname === '/') return 'home';
+    if (pathname === '/search' || pathname === '/search/') return 'search';
+    if (pathname === '/cart' || pathname === '/cart/') return 'cart';
+    if (pathname === '/orders' || pathname === '/orders/') return 'orders';
+    if (pathname === '/profile' || pathname === '/profile/') return 'profile';
+    if (pathname === '/menu' || pathname === '/menu/') return 'home'; // Menu page should highlight home
+    if (pathname === '/scanner' || pathname === '/scanner/') return 'home'; // Scanner page should highlight home
+    return 'home'; // Default to home
+  };
+
+  const currentActiveTab = getCurrentActiveTab();
+
+  const handleTabClick = (route: string) => {
+    router.push(route);
+  };
 
   const getIcon = (iconType: string, isActive: boolean) => {
     const className = `w-6 h-6 ${isActive ? 'text-red-600' : 'text-gray-500'}`;
@@ -62,16 +78,16 @@ export default function BottomNavigation({ activeTab = 'home', onTabClick }: Bot
       {tabs.map((tab) => (
         <button
           key={tab.id}
-          onClick={() => onTabClick?.(tab.id)}
+          onClick={() => handleTabClick(tab.route)}
           className="flex flex-col items-center p-2 min-w-0 flex-1 relative"
         >
-          {getIcon(tab.icon, activeTab === tab.id)}
+          {getIcon(tab.icon, currentActiveTab === tab.id)}
           {tab.id === 'cart' && cartItemCount > 0 && (
             <div className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
               {cartItemCount > 99 ? '99+' : cartItemCount}
             </div>
           )}
-          <span className={`text-xs mt-1 ${activeTab === tab.id ? 'text-red-600' : 'text-gray-500'}`}>
+          <span className={`text-xs mt-1 ${currentActiveTab === tab.id ? 'text-red-600' : 'text-gray-500'}`}>
             {tab.label}
           </span>
         </button>
