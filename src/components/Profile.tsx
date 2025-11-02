@@ -1,19 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from './Header';
 import { useOrder } from './OrderContext';
 import BottomNavigation from './BottomNavigation';
 
 interface ProfileProps {
   onBackClick?: () => void;
-  onTabClick?: (tab: string) => void;
 }
 
-export default function Profile({ onBackClick, onTabClick }: ProfileProps) {
+export default function Profile({ onBackClick }: ProfileProps) {
   const [activeSection, setActiveSection] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
   const { orders } = useOrder();
+  const router = useRouter();
   
   const [userInfo, setUserInfo] = useState({
     name: 'John Doe',
@@ -230,7 +231,7 @@ export default function Profile({ onBackClick, onTabClick }: ProfileProps) {
                 ))}
                 
                 <button
-                  onClick={() => onTabClick?.('orders')}
+                  onClick={() => router.push('/orders')}
                   className="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
                 >
                   View All Orders
@@ -242,7 +243,7 @@ export default function Profile({ onBackClick, onTabClick }: ProfileProps) {
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">No Orders Yet</h3>
                 <p className="text-gray-600 mb-4">Start ordering to see your history here</p>
                 <button
-                  onClick={() => onTabClick?.('home')}
+                  onClick={() => router.push('/menu')}
                   className="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
                 >
                   Browse Menu
@@ -359,7 +360,7 @@ export default function Profile({ onBackClick, onTabClick }: ProfileProps) {
           </div>
         )}
       </div>
-      <BottomNavigation activeTab="profile" onTabClick={onTabClick}/>
+      <BottomNavigation />
     </div>
   );
 }

@@ -6,10 +6,9 @@ import BottomNavigation from './BottomNavigation';
 
 interface OrderTrackingProps {
   onBackClick?: () => void;
-  onTabClick?: (tab: string) => void;
 }
 
-export default function OrderTracking({ onBackClick, onTabClick }: OrderTrackingProps) {
+export default function OrderTracking({ onBackClick }: OrderTrackingProps) {
   const { orders, currentOrder } = useOrder();
 
   const getStatusIcon = (status: OrderStatus, isActive: boolean) => {
@@ -111,7 +110,7 @@ export default function OrderTracking({ onBackClick, onTabClick }: OrderTracking
           <p className="text-gray-500 text-center">Place your first order to track its progress here!</p>
         </div>
 
-        <BottomNavigation activeTab="orders" onTabClick={onTabClick} />
+        <BottomNavigation />
       </div>
     );
   }
@@ -243,7 +242,7 @@ export default function OrderTracking({ onBackClick, onTabClick }: OrderTracking
         )}
       </div>
 
-      <BottomNavigation activeTab="orders" onTabClick={onTabClick} />
+      <BottomNavigation />
     </div>
   );
 }

@@ -56,7 +56,7 @@ export default function Dashboard() {
   return (
     <OrderProvider>
       <CartProvider>
-        <div className="min-h-screen mb-[80px]">
+        <div className="min-h-screen">
         {currentView === 'scanner' ? (
           <ClientOnly fallback={
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -82,7 +82,6 @@ export default function Dashboard() {
           }>
             <RestaurantMenu 
               onBackClick={handleBackToScanner}
-              onTabClick={handleTabClick}
               onFoodItemClick={handleFoodItemClick}
             />
           </ClientOnly>
@@ -94,17 +93,14 @@ export default function Dashboard() {
         ) : currentView === 'cart' ? (
           <Cart 
             onBackClick={() => setCurrentView('menu')}
-            onTabClick={handleTabClick}
           />
         ) : currentView === 'orders' ? (
           <OrderTracking 
             onBackClick={() => setCurrentView('menu')}
-            onTabClick={handleTabClick}
           />
         ) : currentView === 'profile' ? (
           <Profile 
             onBackClick={() => setCurrentView('menu')}
-            onTabClick={handleTabClick}
           />
         ) : null}
         </div>

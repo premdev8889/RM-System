@@ -8,11 +8,10 @@ import { useCart } from './CartContext';
 
 interface RestaurantMenuProps {
   onBackClick?: () => void;
-  onTabClick?: (tab: string) => void;
   onFoodItemClick?: (foodItem: any) => void;
 }
 
-export default function RestaurantMenu({ onBackClick, onTabClick, onFoodItemClick }: RestaurantMenuProps) {
+export default function RestaurantMenu({ onBackClick, onFoodItemClick }: RestaurantMenuProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const { addToCart } = useCart();
@@ -531,7 +530,7 @@ export default function RestaurantMenu({ onBackClick, onTabClick, onFoodItemClic
       </div>
       
       {/* Bottom Navigation */}
-      <BottomNavigation activeTab="home" onTabClick={onTabClick} />
+      <BottomNavigation />
     </div>
   );
 }

@@ -70,6 +70,7 @@ const cuisineFilters = ["All", "Italian", "American", "Japanese", "Indian", "Mex
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('All');
+  const router = useRouter();
 
   const filteredRestaurants = mockRestaurants.filter(restaurant => {
     const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

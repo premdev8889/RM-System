@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCart } from './CartContext';
 import { useOrder } from './OrderContext';
 import Header from './Header';
@@ -12,6 +13,7 @@ interface CartProps {
 export default function Cart({ onBackClick }: CartProps) {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalItems, clearCart } = useCart();
   const { placeOrder } = useOrder();
+  const router = useRouter();
   const [showCheckout, setShowCheckout] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
@@ -38,9 +40,7 @@ export default function Cart({ onBackClick }: CartProps) {
     clearCart();
     
     // Navigate to order tracking
-    if (onTabClick) {
-      onTabClick('orders');
-    }
+    router.push('/orders');
   };
 
   const handleInputChange = (field: string, value: string) => {
