@@ -56,7 +56,7 @@ export default function Dashboard() {
   return (
     <OrderProvider>
       <CartProvider>
-        <div className="min-h-screen">
+        <div className="min-h-screen mb-[80px]">
         {currentView === 'scanner' ? (
           <ClientOnly fallback={
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">

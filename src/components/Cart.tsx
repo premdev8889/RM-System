@@ -7,10 +7,9 @@ import Header from './Header';
 
 interface CartProps {
   onBackClick?: () => void;
-  onTabClick?: (tab: string) => void;
 }
 
-export default function Cart({ onBackClick, onTabClick }: CartProps) {
+export default function Cart({ onBackClick }: CartProps) {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice, getTotalItems, clearCart } = useCart();
   const { placeOrder } = useOrder();
   const [showCheckout, setShowCheckout] = useState(false);
@@ -61,7 +60,7 @@ export default function Cart({ onBackClick, onTabClick }: CartProps) {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 mb-[80px]">
         <Header 
           title="Your Cart" 
           showBack={true} 
@@ -82,14 +81,14 @@ export default function Cart({ onBackClick, onTabClick }: CartProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 mb-[80px]">
       <Header 
         title={`Your Cart (${getTotalItems()})`}
         showBack={true} 
         onBackClick={onBackClick}
       />
       
-      <div className="px-4 py-4">
+      <div className="px-4 py-4 ">
         {/* Cart Items */}
         <div className="space-y-4 mb-6">
           {cartItems.map((item) => (

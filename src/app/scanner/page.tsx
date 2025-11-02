@@ -1,12 +1,12 @@
 'use client';
 
-import Profile from '../../components/Profile';
+import QRScanner from '../../components/QRScanner';
 import BottomNavigation from '../../components/BottomNavigation';
 import { CartProvider } from '../../components/CartContext';
 import { OrderProvider } from '../../components/OrderContext';
 import { useRouter } from 'next/navigation';
 
-export default function ProfilePage() {
+export default function ScannerPage() {
   const router = useRouter();
 
   const handleTabClick = (tab: string) => {
@@ -24,7 +24,7 @@ export default function ProfilePage() {
         router.push('/orders');
         break;
       case 'profile':
-        // Already on profile
+        router.push('/profile');
         break;
     }
   };
@@ -33,8 +33,8 @@ export default function ProfilePage() {
     <OrderProvider>
       <CartProvider>
         <div className="min-h-screen bg-white">
-          <Profile />
-          <BottomNavigation activeTab="profile" onTabClick={handleTabClick} />
+          <QRScanner />
+          <BottomNavigation onTabClick={handleTabClick} />
         </div>
       </CartProvider>
     </OrderProvider>

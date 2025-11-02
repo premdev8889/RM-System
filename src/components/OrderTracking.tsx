@@ -94,7 +94,7 @@ export default function OrderTracking({ onBackClick, onTabClick }: OrderTracking
 
   if (!currentOrder && orders.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 mb-[80px]">
         <Header 
           title="Order Status" 
           showBack={true} 

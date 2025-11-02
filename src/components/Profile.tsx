@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Header from './Header';
 import { useOrder } from './OrderContext';
+import BottomNavigation from './BottomNavigation';
 
 interface ProfileProps {
   onBackClick?: () => void;
@@ -62,7 +63,7 @@ export default function Profile({ onBackClick, onTabClick }: ProfileProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white mb-[80px]">
       <Header 
         title="My Profile"
         showBack={true}
@@ -358,6 +359,7 @@ export default function Profile({ onBackClick, onTabClick }: ProfileProps) {
           </div>
         )}
       </div>
+      <BottomNavigation activeTab="profile" onTabClick={onTabClick}/>
     </div>
   );
 }

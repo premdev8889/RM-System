@@ -1,12 +1,12 @@
 'use client';
 
-import Profile from '../../components/Profile';
+import Cart from '../../components/Cart';
 import BottomNavigation from '../../components/BottomNavigation';
 import { CartProvider } from '../../components/CartContext';
 import { OrderProvider } from '../../components/OrderContext';
 import { useRouter } from 'next/navigation';
 
-export default function ProfilePage() {
+export default function CartPage() {
   const router = useRouter();
 
   const handleTabClick = (tab: string) => {
@@ -18,13 +18,13 @@ export default function ProfilePage() {
         router.push('/search');
         break;
       case 'cart':
-        router.push('/cart');
+        // Already on cart
         break;
       case 'orders':
         router.push('/orders');
         break;
       case 'profile':
-        // Already on profile
+        router.push('/profile');
         break;
     }
   };
@@ -33,8 +33,8 @@ export default function ProfilePage() {
     <OrderProvider>
       <CartProvider>
         <div className="min-h-screen bg-white">
-          <Profile />
-          <BottomNavigation activeTab="profile" onTabClick={handleTabClick} />
+          <Cart />
+          <BottomNavigation activeTab="cart" onTabClick={handleTabClick} />
         </div>
       </CartProvider>
     </OrderProvider>
