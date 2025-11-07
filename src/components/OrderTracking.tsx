@@ -1,7 +1,7 @@
 'use client';
 
 import { useOrder, OrderStatus } from './OrderContext';
-import Header from './Header';
+import BackButton from './BackButton';
 import BottomNavigation from './BottomNavigation';
 
 interface OrderTrackingProps {
@@ -94,11 +94,7 @@ export default function OrderTracking({ onBackClick }: OrderTrackingProps) {
   if (!currentOrder && orders.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 mb-[80px]">
-        <Header 
-          title="Order Status" 
-          showBack={true} 
-          onBackClick={onBackClick}
-        />
+        <BackButton onClick={onBackClick} />
         
         <div className="flex flex-col items-center justify-center h-96 px-4">
           <div className="text-gray-400 mb-4">
@@ -119,11 +115,7 @@ export default function OrderTracking({ onBackClick }: OrderTrackingProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <Header 
-        title="Order Status" 
-        showBack={true} 
-        onBackClick={onBackClick}
-      />
+      <BackButton onClick={onBackClick} />
       
       <div className="p-4 space-y-6">
         {/* Order Info */}

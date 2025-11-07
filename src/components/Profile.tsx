@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from './Header';
+import BackButton from './BackButton';
 import { useOrder } from './OrderContext';
 import BottomNavigation from './BottomNavigation';
 
@@ -71,14 +71,10 @@ export default function Profile({ onBackClick }: ProfileProps) {
 
   return (
     <div className="min-h-screen bg-white mb-[80px]">
-      <Header 
-        title="My Profile"
-        showBack={true}
-        onBackClick={onBackClick}
-      />
+      <BackButton onClick={onBackClick} />
 
       {/* Profile Header */}
-      <div className="bg-white border-r rounded-[10px] shadow-md px-4 py-8 mt-[-20px] mx-4">
+      <div className="bg-white border-r rounded-[10px] shadow-md px-4 py-8 mx-4 mt-8">
         <div className="flex items-center space-x-4">
           <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
             <span className="text-3xl ">👤</span>

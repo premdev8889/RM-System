@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Header from './Header';
+import BackButton from './BackButton';
 import SearchBar from './SearchBar';
 import BottomNavigation from './BottomNavigation';
 import { useCart } from './CartContext';
@@ -107,16 +107,11 @@ export default function RestaurantMenu({ onBackClick, onFoodItemClick }: Restaur
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Header */}
-      <Header 
-        title="Spice Garden" 
-        showBack={true} 
-        showMenu={true}
-        onBackClick={onBackClick}
-      />
+      {/* Back Button */}
+      <BackButton onClick={onBackClick} />
 
       {/* Search Bar */}
-      <div className="px-4 -mt-2">
+      <div className="px-4 mt-4">
         <SearchBar 
           placeholder="Search Menu Items"
           value={searchQuery}

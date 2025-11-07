@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Header from './Header';
+import BackButton from './BackButton';
 
 interface FoodItem {
   id: number;
@@ -79,12 +79,8 @@ export default function FoodDetail({ foodItem, onBackClick, onAddToCart }: FoodD
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <Header 
-        title={foodItem.name}
-        showBack={true}
-        onBackClick={onBackClick}
-      />
+      {/* Back Button */}
+      <BackButton onClick={onBackClick} />
 
       {/* Food Image */}
       <div className="relative h-64 bg-gradient-to-br from-red-400 to-red-600">

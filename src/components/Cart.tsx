@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from './CartContext';
 import { useOrder } from './OrderContext';
-import Header from './Header';
+import BackButton from './BackButton';
 
 interface CartProps {
   onBackClick?: () => void;
@@ -61,11 +61,7 @@ export default function Cart({ onBackClick }: CartProps) {
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 mb-[80px]">
-        <Header 
-          title="Your Cart" 
-          showBack={true} 
-          onBackClick={onBackClick}
-        />
+        <BackButton onClick={onBackClick} />
         
         <div className="flex flex-col items-center justify-center h-96">
           <div className="text-gray-400 mb-4">
@@ -82,11 +78,7 @@ export default function Cart({ onBackClick }: CartProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 mb-[80px]">
-      <Header 
-        title={`Your Cart (${getTotalItems()})`}
-        showBack={true} 
-        onBackClick={onBackClick}
-      />
+      <BackButton onClick={onBackClick} />
       
       <div className="px-4 py-4 ">
         {/* Cart Items */}
