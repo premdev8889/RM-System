@@ -171,21 +171,10 @@ export default function RestaurantMenu({ onBackClick, onFoodItemClick }: Restaur
             </svg>
             <span>11:00 AM - 10:00 PM</span>
           </div>
-          <div className="flex items-center">
-            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span>30 min delivery</span>
-          </div>
+          
         </div>
 
-        {/* Scan Again Button */}
-        <button 
-          onClick={onBackClick}
-          className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition-colors shadow"
-        >
-          SCAN AGAIN
-        </button>
+        
       </div>
 
       {/* Special Offers */}

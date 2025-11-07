@@ -116,14 +116,7 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScanSuccess, onBackClick }) => 
 
   return (
     <div className="min-h-screen bg-black relative" suppressHydrationWarning={true}>
-      {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-20">
-        <Header 
-          title="QR Scanner" 
-          showBack={true} 
-          onBackClick={onBackClick}
-        />
-      </div>
+      
 
       {/* Loading State */}
       {!mounted && (
@@ -202,17 +195,7 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScanSuccess, onBackClick }) => 
       {/* Bottom Controls */}
       {mounted && !error && (
         <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 z-20 px-4">
-          <button
-            onClick={() => {
-              // Simulate QR detection for testing
-              setTimeout(() => {
-                onScanSuccess?.();
-              }, 500);
-            }}
-            className="bg-green-600/80 backdrop-blur-sm text-white px-6 py-3 rounded-full font-semibold border border-green-400/30 hover:bg-green-600 transition-all duration-200 shadow-lg"
-          >
-            🔍 Test Scan
-          </button>
+          
           <button
             onClick={onBackClick}
             className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-semibold border border-white/30 hover:bg-white/30 transition-all duration-200 shadow-lg"

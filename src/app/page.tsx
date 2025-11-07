@@ -1,5 +1,6 @@
-import Dashboard from '../components/Dashboard';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return <Dashboard />;
+  // Ab root par login page open hoga
+  redirect('/login');
 }

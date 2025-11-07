@@ -9,7 +9,7 @@ export default function BottomNavigation() {
   const { getTotalItems } = useCart();
   const cartItemCount = getTotalItems();
   const tabs = [
-    { id: 'home', icon: 'home', label: 'Home', route: '/dashboard' },
+    { id: 'home', icon: 'home', label: 'Home', route: '/menu' },
     { id: 'search', icon: 'search', label: 'Search', route: '/search' },
     { id: 'cart', icon: 'cart', label: 'Cart', route: '/cart' },
     { id: 'orders', icon: 'orders', label: 'Orders', route: '/orders' },

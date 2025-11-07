@@ -1,17 +1,13 @@
 'use client';
 
 import QRScanner from '../../components/QRScanner';
-import { CartProvider } from '../../components/CartContext';
-import { OrderProvider } from '../../components/OrderContext';
+import { useRouter } from 'next/navigation';
 
 export default function ScannerPage() {
+  const router = useRouter();
   return (
-    <OrderProvider>
-      <CartProvider>
-        <div className="min-h-screen bg-white">
-          <QRScanner />
-        </div>
-      </CartProvider>
-    </OrderProvider>
+    <div className="min-h-screen bg-white">
+      <QRScanner onBackClick={() => router.push('/menu')} />
+    </div>
   );
 }

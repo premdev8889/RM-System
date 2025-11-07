@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import BottomNavigation from '../../components/BottomNavigation';
 import SearchBar from '../../components/SearchBar';
-import { CartProvider } from '../../components/CartContext';
-import { OrderProvider } from '../../components/OrderContext';
 import { useRouter } from 'next/navigation';
 
 // Mock restaurant data
@@ -84,9 +82,7 @@ export default function SearchPage() {
   };
 
   return (
-    <OrderProvider>
-      <CartProvider>
-        <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
           <div className="pt-4 pb-20 px-4">
             {/* Search Header */}
             <div className="mb-6">
@@ -99,25 +95,7 @@ export default function SearchPage() {
               />
             </div>
 
-            {/* Cuisine Filters */}
-            <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-700 mb-3">Filter by Cuisine</h2>
-              <div className="flex flex-wrap gap-2">
-                {cuisineFilters.map((cuisine) => (
-                  <button
-                    key={cuisine}
-                    onClick={() => setSelectedCuisine(cuisine)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                      selectedCuisine === cuisine
-                        ? 'bg-red-600 text-white'
-                        : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    {cuisine}
-                  </button>
-                ))}
-              </div>
-            </div>
+           
 
             {/* Search Results */}
             <div className="mb-4">
@@ -177,7 +155,5 @@ export default function SearchPage() {
 
           <BottomNavigation />
         </div>
-      </CartProvider>
-    </OrderProvider>
   );
 }

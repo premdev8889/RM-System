@@ -8,8 +8,6 @@ import Cart from './Cart';
 import OrderTracking from './OrderTracking';
 import Profile from './Profile';
 import ClientOnly from './ClientOnly';
-import { CartProvider } from './CartContext';
-import { OrderProvider } from './OrderContext';
 
 type ViewType = 'scanner' | 'menu' | 'foodDetail' | 'cart' | 'orders' | 'profile';
 
@@ -54,9 +52,7 @@ export default function Dashboard() {
   };
 
   return (
-    <OrderProvider>
-      <CartProvider>
-        <div className="min-h-screen">
+    <div className="min-h-screen">
         {currentView === 'scanner' ? (
           <ClientOnly fallback={
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -103,8 +99,6 @@ export default function Dashboard() {
             onBackClick={() => setCurrentView('menu')}
           />
         ) : null}
-        </div>
-      </CartProvider>
-    </OrderProvider>
+    </div>
   );
 }

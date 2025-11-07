@@ -33,13 +33,19 @@ export default function Profile({ onBackClick }: ProfileProps) {
   const handleInputChange = (field: string, value: string | boolean) => {
     if (field.includes('.')) {
       const [parent, child] = field.split('.');
-      setUserInfo(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent as keyof typeof prev],
-          [child]: value
+      setUserInfo(prev => {
+        const parentValue = prev[parent as keyof typeof prev];
+        if (typeof parentValue === 'object' && parentValue !== null) {
+          return {
+            ...prev,
+            [parent]: {
+              ...parentValue,
+              [child]: value
+            }
+          };
         }
-      }));
+        return prev;
+      });
     } else {
       setUserInfo(prev => ({
         ...prev,
@@ -222,10 +228,10 @@ export default function Profile({ onBackClick }: ProfileProps) {
                       </span>
                     </div>
                     <div className="text-sm text-gray-600 mb-2">
-                      {new Date(order.timestamp).toLocaleDateString()} • ₹{order.total}
+                      {new Date(order.orderTime).toLocaleDateString()} • ₹{order.totalAmount}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {order.items.length} items • Table {order.customerInfo.tableNumber}
+                      {order.items.length} items • Table {order.tableNumber}
                     </div>
                   </div>
                 ))}
