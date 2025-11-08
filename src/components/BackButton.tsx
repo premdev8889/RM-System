@@ -22,13 +22,14 @@ const BackButton: React.FC<BackButtonProps> = ({ onClick, className = '', positi
   };
 
   return (
-    <button
-      onClick={handleClick}
-      aria-label="Back"
-      className={`${position} top-4 left-4 z-50 w-9 h-9 rounded-full bg-white/80 text-gray-800 border border-gray-200 shadow flex items-center justify-center hover:bg-white ${className}`}
-    >
-      <ChevronLeft className="w-5 h-5" />
-    </button>
+    // <button
+    //   onClick={handleClick}
+    //   aria-label="Back"
+    //   className={`${position} top-4 left-4 z-50 w-9 h-9 rounded-full bg-white/80 text-gray-800 border border-gray-200 shadow flex items-center justify-center hover:bg-white ${className}`}
+    // >
+    //   <ChevronLeft className="w-5 h-5" />
+    // </button>
+    <></>
   );
 };
 

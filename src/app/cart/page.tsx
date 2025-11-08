@@ -5,7 +5,7 @@ import BottomNavigation from '../../components/BottomNavigation';
 
 export default function CartPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className=" bg-white">
       <Cart />
       <BottomNavigation />
     </div>

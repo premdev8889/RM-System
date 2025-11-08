@@ -60,7 +60,7 @@ export default function Cart({ onBackClick }: CartProps) {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 mb-[80px]">
+      <div className=" bg-gray-50 mb-[80px]">
         <BackButton onClick={onBackClick} />
         
         <div className="flex flex-col items-center justify-center h-96">
@@ -77,7 +77,7 @@ export default function Cart({ onBackClick }: CartProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 mb-[80px]">
+    <div className=" bg-gray-50 mb-[80px]">
       <BackButton onClick={onBackClick} />
       
       <div className="px-4 py-4 ">

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, ShoppingCart, FileText, User } from 'lucide-react';
+import { Search, ShoppingCart, FileText } from 'lucide-react';
 
 export default function HeaderNavigation() {
   return (
@@ -16,38 +16,16 @@ export default function HeaderNavigation() {
             <span className="ml-2 text-xl font-semibold text-gray-900">Namaste</span>
           </Link>
 
-          {/* Navigation Icons */}
+          {/* Navigation Icons + Profile avatar on far right */}
           <div className="flex items-center space-x-8">
-            <Link 
-              href="/menu" 
-              className="flex flex-col items-center text-gray-600 hover:text-red-500 transition-colors"
-            >
-              <Search className="w-6 h-6" />
-              <span className="text-xs mt-1">Search</span>
-            </Link>
-
-            <Link 
-              href="/cart" 
-              className="flex flex-col items-center text-gray-600 hover:text-red-500 transition-colors"
-            >
-              <ShoppingCart className="w-6 h-6" />
-              <span className="text-xs mt-1">Cart</span>
-            </Link>
-
-            <Link 
-              href="/orders" 
-              className="flex flex-col items-center text-gray-600 hover:text-red-500 transition-colors"
-            >
-              <FileText className="w-6 h-6" />
-              <span className="text-xs mt-1">Orders</span>
-            </Link>
-
-            <Link 
-              href="/profile" 
-              className="flex flex-col items-center text-gray-600 hover:text-red-500 transition-colors"
-            >
-              <User className="w-6 h-6" />
-              <span className="text-xs mt-1">Profile</span>
+            
+            {/* Profile avatar */}
+            <Link href="/profile" className="ml-2">
+              <img
+                src="https://i.pravatar.cc/80?img=15"
+                alt="User"
+                className="w-9 h-9 rounded-full border-2 border-white shadow ring-2 ring-red-100"
+              />
             </Link>
           </div>
         </div>

@@ -8,24 +8,25 @@ export default function BottomNavigation() {
   const pathname = usePathname();
   const { getTotalItems } = useCart();
   const cartItemCount = getTotalItems();
-  const tabs = [
+  // Left and right groups with a prominent center Scan button (like PhonePe)
+  const leftTabs = [
     { id: 'home', icon: 'home', label: 'Home', route: '/menu' },
     { id: 'search', icon: 'search', label: 'Search', route: '/search' },
+  ];
+  const rightTabs = [
     { id: 'cart', icon: 'cart', label: 'Cart', route: '/cart' },
     { id: 'orders', icon: 'orders', label: 'Orders', route: '/orders' },
-    { id: 'profile', icon: 'profile', label: 'Profile', route: '/profile' }
   ];
 
   // Determine active tab based on current pathname
   const getCurrentActiveTab = () => {
-    if (pathname === '/dashboard' || pathname === '/') return 'home';
+    if (pathname === '/' || pathname === '/menu' || pathname === '/menu/') return 'home';
     if (pathname === '/search' || pathname === '/search/') return 'search';
     if (pathname === '/cart' || pathname === '/cart/') return 'cart';
     if (pathname === '/orders' || pathname === '/orders/') return 'orders';
     if (pathname === '/profile' || pathname === '/profile/') return 'profile';
-    if (pathname === '/menu' || pathname === '/menu/') return 'home'; // Menu page should highlight home
-    if (pathname === '/scanner' || pathname === '/scanner/') return 'home'; // Scanner page should highlight home
-    return 'home'; // Default to home
+    if (pathname === '/scanner' || pathname === '/scanner/') return 'scanner';
+    return 'home';
   };
 
   const currentActiveTab = getCurrentActiveTab();
@@ -74,24 +75,59 @@ export default function BottomNavigation() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 flex justify-between items-center">
-      {tabs.map((tab) => (
+    <div className="fixed bottom-0 left-0 right-0">
+      <div className="bg-white border-t border-gray-200 p-3 flex justify-between items-center relative">
+        {/* Left group */}
+        <div className="flex flex-1 justify-evenly">
+          {leftTabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => handleTabClick(tab.route)}
+              className="flex flex-col items-center p-2 min-w-0 relative"
+            >
+              {getIcon(tab.icon, currentActiveTab === tab.id)}
+              
+              <span className={`text-xs mt-1 ${currentActiveTab === tab.id ? 'text-red-600' : 'text-gray-500'}`}>
+                {tab.label}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Right group */}
+        <div className="flex flex-1 justify-evenly">
+          {rightTabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => handleTabClick(tab.route)}
+              className="flex flex-col items-center p-2 min-w-0 relative"
+            >
+              {getIcon(tab.icon, currentActiveTab === tab.id)}
+              {tab.id === 'cart' && cartItemCount > 0 && (
+                <div className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
+                </div>
+              )}
+              <span className={`text-xs mt-1 ${currentActiveTab === tab.id ? 'text-red-600' : 'text-gray-500'}`}>
+                {tab.label}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Center highlighted Scan action */}
         <button
-          key={tab.id}
-          onClick={() => handleTabClick(tab.route)}
-          className="flex flex-col items-center p-2 min-w-0 flex-1 relative"
+          onClick={() => handleTabClick('/scanner')}
+          className={`absolute -top-6 left-1/2 -translate-x-1/2 w-[60px] h-[60px] rounded-full bg-red-600 text-white shadow-lg border-4 border-white flex items-center justify-center ${currentActiveTab === 'scanner' ? 'ring-4 ring-red-300' : ''}`}
+          aria-label="Scan"
         >
-          {getIcon(tab.icon, currentActiveTab === tab.id)}
-          {tab.id === 'cart' && cartItemCount > 0 && (
-            <div className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-              {cartItemCount > 99 ? '99+' : cartItemCount}
-            </div>
-          )}
-          <span className={`text-xs mt-1 ${currentActiveTab === tab.id ? 'text-red-600' : 'text-gray-500'}`}>
-            {tab.label}
-          </span>
+          <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7V5a1 1 0 011-1h2M20 7V5a1 1 0 00-1-1h-2M4 17v2a1 1 0 001 1h2M20 17v2a1 1 0 01-1 1h-2" />
+            <rect x="8" y="8" width="8" height="8" rx="2" strokeWidth="2" />
+          </svg>
         </button>
-      ))}
+        {/* <span className="absolute left-1/2 -translate-x-1/2 bottom-2 text-xs font-medium text-red-600">Scan</span> */}
+      </div>
     </div>
   );
 }
