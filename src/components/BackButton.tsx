@@ -7,9 +7,10 @@ import { ChevronLeft } from 'lucide-react';
 interface BackButtonProps {
   onClick?: () => void;
   className?: string;
+  position?: 'fixed' | 'absolute';
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ onClick, className = '' }) => {
+const BackButton: React.FC<BackButtonProps> = ({ onClick, className = '', position = 'fixed' }) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -24,7 +25,7 @@ const BackButton: React.FC<BackButtonProps> = ({ onClick, className = '' }) => {
     <button
       onClick={handleClick}
       aria-label="Back"
-      className={`fixed top-4 left-4 z-50 w-9 h-9 rounded-full bg-white/80 text-gray-800 border border-gray-200 shadow flex items-center justify-center hover:bg-white ${className}`}
+      className={`${position} top-4 left-4 z-50 w-9 h-9 rounded-full bg-white/80 text-gray-800 border border-gray-200 shadow flex items-center justify-center hover:bg-white ${className}`}
     >
       <ChevronLeft className="w-5 h-5" />
     </button>

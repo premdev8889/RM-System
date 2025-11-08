@@ -24,3 +24,21 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Scanner animation keyframes and utilities */
+@keyframes scan-move {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(calc(100% - 24px)); }
+  100% { transform: translateY(0); }
+}
+
+.scan-line {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ef4444, transparent);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+  animation: scan-move 2.4s ease-in-out infinite;
+}
