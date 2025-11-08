@@ -1,14 +1,14 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import BackButton from '../../components/BackButton';
+// import BackButton from '../../components/BackButton';
 import ScanAnimation from '../../components/ScanAnimation';
 
 export default function LoginPage() {
   const router = useRouter();
 
   const handleScanNow = () => router.push('/scanner');
-  const handleLogin = () => router.push('/menu');
+  // const handleLogin = () => router.push('/menu');
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">

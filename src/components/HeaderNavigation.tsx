@@ -2,8 +2,16 @@
 
 import Link from 'next/link';
 import { Search, ShoppingCart, FileText } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function HeaderNavigation() {
+  const pathname = usePathname();
+  if (pathname === '/login' || pathname?.startsWith('/login')) {
+    return null;
+  }
+  if (pathname === '/scanner' || pathname?.startsWith('/scanner')) {
+    return null;
+  }
   return (
     <div className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
